@@ -1,4 +1,3 @@
-flush binary logs;
 use nightplan;
 
 create table Events

@@ -1,11 +1,11 @@
-module trossi.oberi {
-    opens logic.graphiccontrollers;
-    opens logic.controllers;
-    opens logic.utils;
-    opens logic.beans;
-    opens logic.model;
-    opens logic.view;
-    opens logic.server;
+module it.uniroma2.nightplan {
+    opens it.uniroma2.nightplan.graphiccontrollers;
+    opens it.uniroma2.nightplan.controllers;
+    opens it.uniroma2.nightplan.utils;
+    opens it.uniroma2.nightplan.beans;
+    opens it.uniroma2.nightplan.model;
+    opens it.uniroma2.nightplan.view;
+    opens it.uniroma2.nightplan.server;
 
     requires java.base;
     requires java.net.http;
@@ -31,18 +31,18 @@ module trossi.oberi {
     requires com.google.api.client.json.jackson2;
     requires com.opencsv;
 
-    exports logic.view;
-    exports logic.graphiccontrollers;
-    exports logic.controllers;
-    exports logic.utils;
-    exports logic.beans;
-    exports logic.exceptions;
-    exports logic.server;
-    exports logic.utils.enums;
-    exports logic.model;
+    exports it.uniroma2.nightplan.view;
+    exports it.uniroma2.nightplan.graphiccontrollers;
+    exports it.uniroma2.nightplan.controllers;
+    exports it.uniroma2.nightplan.utils;
+    exports it.uniroma2.nightplan.beans;
+    exports it.uniroma2.nightplan.exceptions;
+    exports it.uniroma2.nightplan.server;
+    exports it.uniroma2.nightplan.utils.enums;
+    exports it.uniroma2.nightplan.model;
 
-    opens logic.utils.enums;
-    exports logic.controllers.factory;
-    opens logic.controllers.factory;
+    opens it.uniroma2.nightplan.utils.enums;
+    exports it.uniroma2.nightplan.controllers.factory;
+    opens it.uniroma2.nightplan.controllers.factory;
 
 }

@@ -108,7 +108,7 @@
                             <!-- Default configuration for running with: mvn clean javafx:run -->
                             <id>default-cli</id>
                             <configuration>
-                                <mainClass>trossi.oberi/logic.view.EssentialGUI</mainClass>
+                                <mainClass>it.uniroma2.nightplan/it.uniroma2.nightplan.view.EssentialGUI</mainClass>
                                 <launcher>app</launcher>
                                 <jlinkZipName>app</jlinkZipName>
                                 <jlinkImageName>app</jlinkImageName>
@@ -119,7 +119,7 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <mainClass>logic.view.EssentialGUI</mainClass>
+                        <mainClass>it.uniroma2.nightplan.view.EssentialGUI</mainClass>
                     </configuration>
                 </plugin>
 

@@ -3,6 +3,7 @@ package it.uniroma2.nightplan.controllers;
 import it.uniroma2.nightplan.beans.BMessage;
 import it.uniroma2.nightplan.utils.LoggedUser;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*Nicolas Oberi*/
 
+@Tag("integration")
 class TestChatController {
     CFacade facade;
     private static final String MESSAGE = "This is a test message";

@@ -71,7 +71,7 @@ public class Server {
                 //aggiungo nuovo utente al numero di connessioni
                 connections++;
 
-                logger.info("Nuovo client connesso: " + client.getInetAddress() + " on port " + client.getPort());
+                logger.info("New client connected: " + client.getInetAddress() + " on port " + client.getPort());
                 ClientHandler ch = new ClientHandler(client);
                 //avvio un thread apposito per ogni client che si connette che dovrà gestire tutti gli scambi di dati tra client-server
                 Thread t = new Thread(ch);
@@ -132,7 +132,7 @@ public class Server {
         private void handleMessage(Message mex) {
             //implementato solo il caso di group message quindi il message type verra' ignorato
             //rigiro il messaggio cosi' come e' arrivato al server
-            System.out.println("Ricevuto messaggio da id: " + mex.getSenderID() + ", verso group id: " + mex.getReceiverID() + ", testo: " + mex.getMessage());
+            logger.info("Received message from id: " + mex.getSenderID() + ", to group id: " + mex.getReceiverID() + ", text: " + mex.getMessage());
             this.notify(SubjectTypes.USERS_IN_GROUP, mex);
             //notifico solo gli utenti online nel gruppo con quell'ID (receiverID)
         }
@@ -179,12 +179,12 @@ public class Server {
 
         private void handleDisconnected(Notification noti) {
             if (noti.getUserType().equals(UserTypes.USER)) {
-                System.out.println("User logged out, id = " + noti.getClientID());
+                logger.info("User logged out, id = " + noti.getClientID());
                 synchronized (connectedUsers) {
                     updateLoggedUsers(noti.getClientID(), false, noti.getUserType());
                 }
             } else if (noti.getUserType().equals(UserTypes.ORGANIZER)) {
-                System.out.println("Organizer logged out, id = " + noti.getClientID());
+                logger.info("Organizer logged out, id = " + noti.getClientID());
                 synchronized (connectedOrganizers) {
                     updateLoggedUsers(noti.getClientID(), false, noti.getUserType());
                 }
@@ -202,7 +202,7 @@ public class Server {
 
             synchronized (usersInGroups) {
                 if (detach(SubjectTypes.USERS_IN_GROUP, noti)) {
-                    System.out.println(USER_ID_STR + noti.getClientID() + ", left group with id = " + noti.getEventID());
+                    logger.info(USER_ID_STR + noti.getClientID() + ", left group with id = " + noti.getEventID());
                 } else {
                     logger.severe("Error during GroupLeave detach");
                 }
@@ -212,7 +212,7 @@ public class Server {
         }
 
         private void handleGroupJoin(Notification noti) {
-            System.out.println(USER_ID_STR + noti.getClientID() + ", joined group with id = " + noti.getEventID()); //event viene usato come group
+            logger.info(USER_ID_STR + noti.getClientID() + ", joined group with id = " + noti.getEventID()); //event viene usato come group
 
             //AGGIORNO HASHMAP
             synchronized (usersInGroups) {
@@ -226,12 +226,12 @@ public class Server {
         }
 
         private void handleChangeCity(Notification noti) {
-            System.out.println(USER_ID_STR + noti.getClientID() + ", changed city from " + noti.getCity() + " to " + noti.getNewCity());
+            logger.info(USER_ID_STR + noti.getClientID() + ", changed city from " + noti.getCity() + " to " + noti.getNewCity());
 
             synchronized (observersByCity) {
                 //DETACH CITY VECCHIA
                 if (detach(SubjectTypes.USERS_IN_CITY, noti)) {
-                    System.out.println("User with id " + noti.getClientID() + " detached from city " + noti.getCity());
+                    logger.info("User with id " + noti.getClientID() + " detached from city " + noti.getCity());
                 } else {
                     logger.severe("Error during ChangeCity detach");
                 }
@@ -246,7 +246,7 @@ public class Server {
         }
 
         private void handleEventParticipation(Notification noti) {
-            System.out.println("User with id " + noti.getClientID() + " participating to event with id = " + noti.getEventID());
+            logger.info("User with id " + noti.getClientID() + " participating to event with id = " + noti.getEventID());
 
             //mandare messaggio di ritorno all'utente
             Notification response = notiFactory.createNotification(SERVER_CLIENT, NotificationTypes.USER_EVENT_PARTICIPATION, null, null, null, null, null);
@@ -260,7 +260,7 @@ public class Server {
         }
 
         private void handleEventDeleted(Notification noti) {
-            System.out.println("Event with id " + noti.getEventID() + " deleted");
+            logger.info("Event with id " + noti.getEventID() + " deleted");
             synchronized (organizersByEventID) {
                 //rimuove l'associazione tra event-id e organizer nella hashmap
                 if (!detach(SubjectTypes.EVENT_ORGANIZER, noti)) {
@@ -272,7 +272,7 @@ public class Server {
         }
 
         private void handleEventAdded(Notification noti) {
-            System.out.println("New event added by " + noti.getClientID() + ", eventID: " + noti.getEventID() + ", city: " + noti.getCity());
+            logger.info("New event added by " + noti.getClientID() + ", eventID: " + noti.getEventID() + ", city: " + noti.getCity());
             synchronized (organizersByEventID) {
                 //un solo thread alla volta può read/write su observersByCity affinché i dati siano consistenti
                 //creo observer con le informazioni del nuovo utente registrato (user_id, canali di comunicazione in uscita verso la Client socket)
@@ -292,7 +292,7 @@ public class Server {
 
         private void handleLogin(Notification noti) {
             if (noti.getUserType().equals(UserTypes.USER)) {
-                System.out.println("User logged in, id = " + noti.getClientID());
+                logger.info("User logged in, id = " + noti.getClientID());
                 synchronized (connectedUsers) {
                     updateLoggedUsers(noti.getClientID(), true, noti.getUserType());
                 }
@@ -300,7 +300,7 @@ public class Server {
                     updateUserOut(noti.getCity(), noti.getClientID(), out);
                 }
             } else if (noti.getUserType().equals(UserTypes.ORGANIZER)) {
-                System.out.println("Organizer logged in, id = " + noti.getClientID());
+                logger.info("Organizer logged in, id = " + noti.getClientID());
                 synchronized (connectedOrganizers) {
                     updateLoggedUsers(noti.getClientID(), true, noti.getUserType());
                 }
@@ -315,7 +315,7 @@ public class Server {
         }
 
         private void handleUserReg(Notification noti) {
-            System.out.println("User registered, id = " + noti.getClientID() + ", city = " + noti.getCity());
+            logger.info("User registered, id = " + noti.getClientID() + ", city = " + noti.getCity());
             synchronized (observersByCity) {
                 //un solo thread alla volta può read/write su observersByCity affinché i dati siano consistenti
                 //creo observer con le informazioni del nuovo utente registrato (user_id, canali di comunicazione in uscita verso la Client socket)
@@ -375,10 +375,10 @@ public class Server {
         private void updateLoggedUsers(int userID, boolean isConnected, UserTypes type) {
             if (type.equals(UserTypes.USER)) {
                 connectedUsers.put(userID, isConnected);
-                System.out.println("User id: " + userID + ", isConnected:" + connectedUsers.get(userID).toString());
+                logger.info("User id: " + userID + ", isConnected:" + connectedUsers.get(userID).toString());
             } else if (type.equals(UserTypes.ORGANIZER)) {
                 connectedOrganizers.put(userID, isConnected);
-                System.out.println("Organizer id: " + userID + ", isConnected:" + connectedOrganizers.get(userID).toString());
+                logger.info("Organizer id: " + userID + ", isConnected:" + connectedOrganizers.get(userID).toString());
             }
         }
 
@@ -428,7 +428,7 @@ public class Server {
             }
             ObserverClass orgObs = obsFactory.createObserver(ObserverType.NOTI_OBSERVER, noti.getClientID(), out);
             organizersByEventID.put(noti.getEventID(), orgObs);
-            System.out.println("Added eventID: " + noti.getEventID() + " to orgID: " + orgObs.getObsID());
+            logger.info("Added eventID: " + noti.getEventID() + " to orgID: " + orgObs.getObsID());
             return true;
         }
 
@@ -439,10 +439,10 @@ public class Server {
             ObserverClass notiObs = obsFactory.createObserver(ObserverType.NOTI_OBSERVER, noti.getClientID(), out);
             if(noti.getNewCity() != null){
                 observersByCity.computeIfAbsent(noti.getNewCity(), k -> new ArrayList<>()).add(notiObs);
-                System.out.println("Added userID " + notiObs.getObsID() + " to new city: " + noti.getNewCity());
+                logger.info("Added userID " + notiObs.getObsID() + " to new city: " + noti.getNewCity());
             } else {
                 observersByCity.computeIfAbsent(noti.getCity(), k -> new ArrayList<>()).add(notiObs);
-                System.out.println("Added userID " + notiObs.getObsID() + " to city: " + noti.getCity());
+                logger.info("Added userID " + notiObs.getObsID() + " to city: " + noti.getCity());
             }
 
             return true;
@@ -455,7 +455,7 @@ public class Server {
             Integer groupID = noti.getEventID();
             ObserverClass groupObs = obsFactory.createObserver(ObserverType.MESSAGE_OBSERVER, noti.getClientID(), out);
             usersInGroups.computeIfAbsent(groupID, k -> new ArrayList<>()).add(groupObs);
-            System.out.println("Added userID: " + groupObs.getObsID() + " to groupID: " + groupID);
+            logger.info("Added userID: " + groupObs.getObsID() + " to groupID: " + groupID);
             return true;
         }
 
@@ -466,7 +466,7 @@ public class Server {
             List<ObserverClass> list = observersByCity.get(city);
             if (list != null) {
                 list.removeIf(obs -> obs.getObsID() == userID);
-                System.out.println("Detached user id " + userID + " from city " + city);
+                logger.info("Detached user id " + userID + " from city " + city);
                 return true;
             }
             return false;
@@ -477,7 +477,7 @@ public class Server {
                 return false;
             }
             ObserverClass tempObs = organizersByEventID.remove(noti.getEventID());
-            System.out.println("Removed eventID: " + noti.getEventID() + " to orgID: " + tempObs.getObsID());
+            logger.info("Removed eventID: " + noti.getEventID() + " to orgID: " + tempObs.getObsID());
             return true;
         }
 
@@ -486,7 +486,7 @@ public class Server {
             List<ObserverClass> tempList = usersInGroups.get(groupID);
             if (tempList != null) {
                 tempList.removeIf(obs -> obs.getObsID() == noti.getClientID());
-                System.out.println("Removed userID: " + noti.getClientID() + " from groupID: " + groupID);
+                logger.info("Removed userID: " + noti.getClientID() + " from groupID: " + groupID);
                 return true;
             }
             return false;

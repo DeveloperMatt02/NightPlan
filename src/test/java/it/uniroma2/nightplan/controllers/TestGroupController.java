@@ -4,6 +4,7 @@ import it.uniroma2.nightplan.beans.BGroup;
 import it.uniroma2.nightplan.exceptions.GroupAlreadyCreated;
 import it.uniroma2.nightplan.exceptions.InvalidGroupName;
 import it.uniroma2.nightplan.utils.LoggedUser;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.logging.Level;
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*Matteo Trossi*/
+@Tag("integration")
 class TestGroupController {
     private static final String GROUPNAME = "TestGroup";
     CFacade facade;

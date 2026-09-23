@@ -4,55 +4,75 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.uniroma2.ispw</groupId>
-    <artifactId>trossi-oberi</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>it.uniroma2.nightplan</groupId>
+    <artifactId>nightplan</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
     <name>NightPlan</name>
+    <description>Desktop application to discover local nightlife events, plan participation and chat with other attendees.</description>
+    <url>https://github.com/DeveloperMatt02/NightPlan</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
 
     <properties>
-        <sonar.organization>trossi-oberi</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <javafx.version>21.0.1</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+        <junit.version>5.10.0</junit.version>
+
+        <!-- Integration tests need a populated MySQL instance: run them with -Pintegration-tests -->
+        <surefire.excludedGroups>integration</surefire.excludedGroups>
     </properties>
 
     <dependencies>
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
-            <version>21.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
-            <version>20.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
+
+        <!-- Persistence -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.9</version>
+        </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20231013</version>
         </dependency>
 
-        <!-- Google Login dependency -->
+        <!-- Google Sign-In (OAuth 2.0) -->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client-gson</artifactId>
@@ -69,68 +89,59 @@
             <version>1.43.1</version>
         </dependency>
 
-        <!-- CSV logic for UserDAOCSV-->
-        <dependency>
-            <groupId>com.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>5.9</version>
-        </dependency>
-
-        <!-- start dependencies for junit -->
+        <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.0</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
-            <plugins>
-                <!-- plugin maven for compiler -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.11.0</version>
-                    <configuration>
-                        <source>21</source>
-                        <target>21</target>
-                    </configuration>
-                </plugin>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
 
-                <!-- plugin for javafx -->
-                <plugin>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>javafx-maven-plugin</artifactId>
-                    <version>0.0.8</version>
-                    <executions>
-                        <execution>
-                            <!-- Default configuration for running with: mvn clean javafx:run -->
-                            <id>default-cli</id>
-                            <configuration>
-                                <mainClass>it.uniroma2.nightplan/it.uniroma2.nightplan.view.EssentialGUI</mainClass>
-                                <launcher>app</launcher>
-                                <jlinkZipName>app</jlinkZipName>
-                                <jlinkImageName>app</jlinkImageName>
-                                <noManPages>true</noManPages>
-                                <stripDebug>true</stripDebug>
-                                <noHeaderFiles>true</noHeaderFiles>
-                            </configuration>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <mainClass>it.uniroma2.nightplan.view.EssentialGUI</mainClass>
-                    </configuration>
-                </plugin>
+            <!-- mvn javafx:run  (optional: -Djavafx.args="FileSystem") -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx.maven.plugin.version}</version>
+                <configuration>
+                    <mainClass>it.uniroma2.nightplan/it.uniroma2.nightplan.view.EssentialGUI</mainClass>
+                    <launcher>nightplan</launcher>
+                    <jlinkZipName>nightplan</jlinkZipName>
+                    <jlinkImageName>nightplan</jlinkImageName>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                    <noHeaderFiles>true</noHeaderFiles>
+                </configuration>
+            </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.2.2</version>
-                    <configuration>
-                        <testFailureIgnore>true</testFailureIgnore>
-                    </configuration>
-                </plugin>
-            </plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <excludedGroups>${surefire.excludedGroups}</excludedGroups>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <properties>
+                <surefire.excludedGroups />
+            </properties>
+        </profile>
+    </profiles>
 </project>

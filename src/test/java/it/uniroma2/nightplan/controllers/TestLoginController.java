@@ -7,6 +7,7 @@ import it.uniroma2.nightplan.exceptions.TextTooLongException;
 import it.uniroma2.nightplan.exceptions.UsernameAlreadyTaken;
 import it.uniroma2.nightplan.utils.LoggedUser;
 import it.uniroma2.nightplan.utils.enums.UserTypes;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*Matteo Trossi*/
+@Tag("integration")
 class TestLoginController {
     CFacade facade;
 

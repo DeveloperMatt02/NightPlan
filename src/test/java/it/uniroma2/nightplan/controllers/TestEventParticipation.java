@@ -3,6 +3,7 @@ package it.uniroma2.nightplan.controllers;
 import it.uniroma2.nightplan.beans.BEvent;
 import it.uniroma2.nightplan.exceptions.EventAlreadyDeleted;
 import it.uniroma2.nightplan.utils.enums.UserTypes;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma2.nightplan.utils.LoggedUser;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /*Matteo Trossi*/
 
+@Tag("integration")
 class TestEventParticipation {
     CFacade facade;
 

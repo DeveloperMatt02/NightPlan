@@ -122,8 +122,8 @@ public class ClientListener implements Runnable {
 
     private void handleMessage(Message incomingMsg) {
         //IMPLEMENTATO SOLO GROUPMESSAGE QUINDI NON FACCIO CONTROLLI AGGIUNTIVI SUL TIPO DI MESSAGGIO
-        logger.info(() -> "LISTENER: Ricevuto messaggio da id: "+incomingMsg.getSenderID()+
-                ", verso gruppo con id: "+incomingMsg.getReceiverID()+", testo: "+incomingMsg.getMessage());
+        logger.info(() -> "LISTENER: received message from id: "+incomingMsg.getSenderID()+
+                ", to group id: "+incomingMsg.getReceiverID()+", text: "+incomingMsg.getMessage());
         if (facade.getChatGraphic()!=null){ //significa che mi trovo effettivamente sulla schermata della chat
             facade.addMessageToChat(incomingMsg);
         }

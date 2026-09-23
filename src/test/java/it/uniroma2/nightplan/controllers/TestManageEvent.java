@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*Nicolas Oberi*/
 
+@Tag("integration")
 class TestManageEvent {
     CFacade facade;
 

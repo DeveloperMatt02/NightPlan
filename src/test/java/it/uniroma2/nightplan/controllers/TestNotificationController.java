@@ -9,6 +9,7 @@ import it.uniroma2.nightplan.utils.LoggedUser;
 
 import it.uniroma2.nightplan.utils.enums.NotificationTypes;
 import it.uniroma2.nightplan.utils.enums.UserTypes;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*Nicolas Oberi*/
 
+@Tag("integration")
 class TestNotificationController {
     CFacade facade;
     private static final String MESSAGE = "This is a test message";

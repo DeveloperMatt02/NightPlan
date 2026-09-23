@@ -6,6 +6,8 @@ import it.uniroma2.nightplan.dao.UserEventDAO;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 
 import static it.uniroma2.nightplan.view.EssentialGUI.logger;
@@ -20,6 +22,13 @@ public class CAnalytics {
     public boolean exportAnalyticsFile(BAnalytics analysis) {
         String folderPath = "exportedAnalytics";
         String fileName = analysis.getEventName() + ".txt";
+
+        try {
+            Files.createDirectories(Paths.get(folderPath));
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Cannot create the analytics export folder", e);
+            return false;
+        }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/" + fileName))) {
             // Popola il file di testo con le informazioni dal bean BAnalysis

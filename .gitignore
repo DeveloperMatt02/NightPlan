@@ -1,38 +1,44 @@
+# --- Local configuration & secrets (never commit) ---
+config/config.properties
+config/client_secrets.json
+src/main/resources/config.properties
+src/main/resources/client_secrets.json
+tokens/
+.env
+
+# --- Runtime output ---
+exportedAnalytics/
+csvData/
+*.log
+
+# --- Maven ---
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
+# --- IDEs ---
+.idea/
 *.iml
+*.iws
 *.ipr
-
-### Eclipse ###
-.apt_generated
+out/
+.vscode/
 .classpath
-.factorypath
 .project
-.settings
-.springBeans
+.settings/
+.factorypath
+.apt_generated
 .sts4-cache
-
-### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# --- Draw.io backups ---
+*.drawio.bkp
+.$*
 
-### Mac OS ###
+# --- OS ---
 .DS_Store
+Thumbs.db

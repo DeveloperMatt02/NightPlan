@@ -1,57 +1,32 @@
 package it.uniroma2.nightplan.utils;
 
-import java.io.InputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import static it.uniroma2.nightplan.view.EssentialGUI.logger;
 
 
+/**
+ * Singleton that hands out JDBC connections to the DAO layer.
+ * Connection parameters are read from {@link AppConfig}.
+ */
 public class SingletonDBSession {
     private static SingletonDBSession instance = null;
-    private String username;
-    private String password;
-    private InputStream inputStream;
+    private final String url;
+    private final String username;
+    private final String password;
     protected Connection connection = null;
 
-
-    public String[] getPropValues() throws IOException {
-        String[] result = new String[2];
-        try {
-            Properties prop = new Properties();
-            String propFileName = "config.properties";
-            inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-            prop.load(inputStream);
-            result[0] = prop.getProperty("username");
-            result[1] = prop.getProperty("password");
-        } catch (NullPointerException e) {
-            logger.log(Level.SEVERE, "Properties file not found!", e);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Properties cannot be loaded!", e);
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-        }
-        return result;
-    }
-
     private SingletonDBSession() {
-        try {
-            this.username = getPropValues()[0];
-            this.password = getPropValues()[1];
-        } catch (IOException e) {
-            logger.severe("Failed to get username and password from config.properties file");
-        }
+        this.url = AppConfig.dbUrl();
+        this.username = AppConfig.dbUsername();
+        this.password = AppConfig.dbPassword();
     }
 
     public Connection getConnection() {
         try {
-            String url = "jdbc:mysql://localhost/nightplan?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             this.connection = DriverManager.getConnection(url, username, password);
             return this.connection;
         } catch (SQLException e) {
@@ -70,7 +45,9 @@ public class SingletonDBSession {
 
     public void closeConn() {
         try {
-            this.connection.close();
+            if (this.connection != null) {
+                this.connection.close();
+            }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

@@ -16,9 +16,11 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 
 import it.uniroma2.nightplan.exceptions.InvalidTokenValue;
+import it.uniroma2.nightplan.utils.AppConfig;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.awt.*;
 import java.io.IOException;
@@ -33,8 +35,7 @@ public class GoogleLogin {
     }
 
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final String CLIENT_SECRETS_FILE_PATH = "client_secrets.json";
+    private static final String CLASSPATH_CLIENT_SECRETS = "client_secrets.json";
     private static final String SCOPES = "https://www.googleapis.com/auth/userinfo.email";
 
     private static GoogleAuthorizationCodeFlow flow;
@@ -42,19 +43,15 @@ public class GoogleLogin {
     public static int initGoogleLogin(){
         try {
             // Load client secrets
-            InputStream in = GoogleLogin.class.getClassLoader().getResourceAsStream(CLIENT_SECRETS_FILE_PATH);
-            GoogleClientSecrets clientSecrets = null;
-            if (in != null) {
-                clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-            }
+            GoogleClientSecrets clientSecrets = loadClientSecrets();
             if (clientSecrets != null) {
                 flow = new GoogleAuthorizationCodeFlow.Builder(
                         GoogleNetHttpTransport.newTrustedTransport(), JSON_FACTORY, clientSecrets, Collections.singletonList(SCOPES))
-                        .setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
+                        .setDataStoreFactory(new FileDataStoreFactory(new File(AppConfig.googleTokensDirectory())))
                         .setAccessType("offline")
                         .build();
             } else {
-                logger.severe("ClientSecrets is null!");
+                logger.severe("Google client secrets not found: see config/client_secrets.json.example");
                 return 0;
             }
 
@@ -69,6 +66,24 @@ public class GoogleLogin {
             return 0;
         }
         return 1;
+    }
+
+    private static GoogleClientSecrets loadClientSecrets() throws IOException {
+        // 1) external file (config/client_secrets.json or NIGHTPLAN_GOOGLE_CLIENT_SECRETS)
+        File secretsFile = new File(AppConfig.googleClientSecretsPath());
+        if (secretsFile.isFile()) {
+            try (Reader reader = new InputStreamReader(new FileInputStream(secretsFile), StandardCharsets.UTF_8)) {
+                return GoogleClientSecrets.load(JSON_FACTORY, reader);
+            }
+        }
+        // 2) legacy classpath location
+        InputStream in = GoogleLogin.class.getClassLoader().getResourceAsStream(CLASSPATH_CLIENT_SECRETS);
+        if (in != null) {
+            try (Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+                return GoogleClientSecrets.load(JSON_FACTORY, reader);
+            }
+        }
+        return null;
     }
 
     public static GoogleAuthorizationCodeFlow getGoogleAuthFlow(){

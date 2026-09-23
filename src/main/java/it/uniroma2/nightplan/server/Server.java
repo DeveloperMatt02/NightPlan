@@ -4,6 +4,7 @@ import it.uniroma2.nightplan.controllers.factory.NotificationFactory;
 import it.uniroma2.nightplan.controllers.factory.ObserverFactory;
 import it.uniroma2.nightplan.dao.*;
 import it.uniroma2.nightplan.model.*;
+import it.uniroma2.nightplan.utils.AppConfig;
 import it.uniroma2.nightplan.utils.enums.*;
 
 import java.io.IOException;
@@ -29,8 +30,8 @@ public class Server {
     private static Logger logger = Logger.getLogger("NightPlan");
     private int connections = 0;
     private static final int MAX_CONNECTIONS = 500;
-    public static final String ADDRESS = "localhost";
-    public static final int PORT = 2521;
+    public static final String ADDRESS = AppConfig.serverHost();
+    public static final int PORT = AppConfig.serverPort();
     private NotificationFactory notiFactory;
     private ObserverFactory obsFactory;
     private static final SituationType SERVER_CLIENT = SituationType.SERVER_CLIENT;

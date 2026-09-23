@@ -1,0 +1,23 @@
+# NightPlan runtime configuration
+# Copy this file to config/config.properties and fill in your own values.
+# Every key can also be overridden with the environment variable shown in brackets.
+
+# --- MySQL (JDBC persistence) ---
+# [NIGHTPLAN_DB_URL]
+db.url=jdbc:mysql://localhost:3306/nightplan?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+# [NIGHTPLAN_DB_USERNAME]
+db.username=nightplan
+# [NIGHTPLAN_DB_PASSWORD]
+db.password=change-me
+
+# --- Notification / chat server ---
+# [NIGHTPLAN_SERVER_HOST]
+server.host=localhost
+# [NIGHTPLAN_SERVER_PORT]
+server.port=2521
+
+# --- Google Sign-In (optional) ---
+# [NIGHTPLAN_GOOGLE_CLIENT_SECRETS] OAuth client of type "Desktop app" from Google Cloud Console
+google.clientSecretsPath=config/client_secrets.json
+# [NIGHTPLAN_GOOGLE_TOKENS_DIR] where the OAuth tokens are cached locally
+google.tokensDirectory=tokens

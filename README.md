@@ -70,8 +70,7 @@ More details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## 🎥 Demo
 
-<!-- TODO: replace VIDEO_ID with the YouTube video ID once uploaded -->
-[![Watch the demo on YouTube](docs/images/video-thumbnail.jpg)](https://youtu.be/VIDEO_ID)
+[![Watch the demo on YouTube](docs/images/video-thumbnail.jpg)](https://youtu.be/LjPVBJZy7sE) 
 
 ## 🛠️ Tech Stack
 
@@ -198,8 +197,6 @@ This is an academic project, so a few shortcuts were taken on purpose:
 * The seed script loads event posters with `LOAD_FILE` from a Windows MySQL uploads path. On other systems the demo events have no poster until you upload one from the app.
 
 ## 👥 Team
-
-<!-- TODO: complete the team list (names, roles, GitHub/LinkedIn links) -->
 
 | Member | Main responsibilities |
 |--------|-----------------------|

@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="../README.md"><img src="images/logo-badge.png" alt="NightPlan" width="300"></a>
+</p>
+
 # Requirements
 
 This document summarises the **Software Requirements Specification** of NightPlan.

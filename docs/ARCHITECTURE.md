@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="../README.md"><img src="images/logo-badge.png" alt="NightPlan" width="300"></a>
+</p>
+
 # Architecture
 
 NightPlan is a **Java 21 / JavaFX desktop application** built on a layered **MVC architecture**
@@ -8,6 +12,7 @@ real-time notifications and chat messages to connected clients.
 ## High-level view
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#6D28D9','primaryTextColor':'#FFFFFF','primaryBorderColor':'#A78BFA','lineColor':'#8B5CF6','secondaryColor':'#4C1D95','tertiaryColor':'#F5F3FF','clusterBkg':'#F5F3FF','clusterBorder':'#A78BFA','edgeLabelBackground':'#4C1D95','textColor':'#1E1B4B','fontFamily':'Poppins, Segoe UI, sans-serif'}}}%%
 graph TD
     subgraph Client["Client (desktop app)"]
         GUI["JavaFX GUI<br/>view + FXML"] --> GC["Graphic controllers<br/>GC*"]

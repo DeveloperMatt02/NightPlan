@@ -1,11 +1,26 @@
-# NightPlan: Musical Events & Shows Manager
+<p align="center">
+  <img src="docs/images/banner.png" alt="NightPlan: discover nightlife events, plan your night, meet other attendees" width="100%">
+</p>
 
-![Java](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white)
-![JavaFX](https://img.shields.io/badge/JavaFX-21-3C5A99)
-![Maven](https://img.shields.io/badge/Maven-3.9+-C71A36?logo=apachemaven&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white)
-[![CI](https://github.com/DeveloperMatt02/NightPlan/actions/workflows/ci.yml/badge.svg)](https://github.com/DeveloperMatt02/NightPlan/actions/workflows/ci.yml)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
+<h3 align="center">Musical events &amp; shows manager: a Java desktop app with real-time notifications and group chat</h3>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white" alt="Java 21">
+  <img src="https://img.shields.io/badge/JavaFX-21-3C5A99" alt="JavaFX 21">
+  <img src="https://img.shields.io/badge/Maven-3.9+-C71A36?logo=apachemaven&logoColor=white" alt="Maven">
+  <img src="https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white" alt="MySQL 8">
+  <a href="https://github.com/DeveloperMatt02/NightPlan/actions/workflows/ci.yml"><img src="https://github.com/DeveloperMatt02/NightPlan/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/License-MIT-7B2FF7.svg" alt="MIT License">
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#screenshots">Screenshots</a> ·
+  <a href="#demo">Demo</a> ·
+  <a href="#getting-started">Getting Started</a> ·
+  <a href="#documentation">Documentation</a>
+</p>
 
 > Developed for the **Software Engineering and Web Design** course (*Ingegneria del Software e Progettazione Web*, A.Y. 2023/24),
 > B.Sc. in Computer Engineering at the **University of Rome Tor Vergata**.
@@ -16,6 +31,8 @@ Organizers get a single channel to publish events, reach users in real time and 
 <p align="center">
   <img src="docs/images/screenshots/event-organizer.png" alt="Event page (organizer view)" width="720">
 </p>
+
+<a id="overview"></a>
 
 ## 🚀 Overview
 
@@ -35,9 +52,12 @@ The project was designed with a full software-engineering process (user stories,
 7. **Authentication.** Classic registration (18+) or **Sign in with Google** (OAuth 2.0).
 8. **Two UIs, two persistence modes.** A JavaFX GUI and a complete command-line interface. Notifications can be stored in MySQL (JDBC) or in CSV files.
 
+<a id="architecture"></a>
+
 ## 🧠 Architecture
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#6D28D9','primaryTextColor':'#FFFFFF','primaryBorderColor':'#A78BFA','lineColor':'#8B5CF6','secondaryColor':'#4C1D95','tertiaryColor':'#F5F3FF','clusterBkg':'#F5F3FF','clusterBorder':'#A78BFA','edgeLabelBackground':'#4C1D95','textColor':'#1E1B4B','fontFamily':'Poppins, Segoe UI, sans-serif'}}}%%
 graph TD
     V["View<br/>JavaFX GUI · CLI"] --> GC["Graphic controllers<br/>(GC*)"]
     GC -->|beans| F{{"CFacade<br/>(Facade)"}}
@@ -60,6 +80,8 @@ graph TD
 
 More details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
+<a id="screenshots"></a>
+
 ## 🖼️ Screenshots
 
 | Login | Add event (organizer) |
@@ -67,6 +89,8 @@ More details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 | <img src="docs/images/screenshots/login.png" width="400"> | <img src="docs/images/screenshots/add-event.png" width="400"> |
 | **Event page (user)** | **Your events (user)** |
 | <img src="docs/images/screenshots/event-user.png" width="400"> | <img src="docs/images/screenshots/your-events.png" width="400"> |
+
+<a id="demo"></a>
 
 ## 🎥 Demo
 
@@ -81,6 +105,8 @@ More details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 * **Authentication:** [Google OAuth Client](https://github.com/googleapis/google-oauth-java-client)
 * **Build & quality:** Maven, JUnit 5, GitHub Actions, SonarCloud (during development)
 
+<a id="documentation"></a>
+
 ## 📖 Documentation
 
 * [Architecture Overview](docs/ARCHITECTURE.md)
@@ -88,6 +114,8 @@ More details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 * [Technical Design](docs/TECHNICAL_DESIGN.md): UML diagrams, exceptions, testing, design discrepancies
 * [Original Technical Documentation (PDF)](docs/NightPlan-Technical-Documentation.pdf)
 * [Course deliverables](docs/deliverables): storyboards and UML diagrams (PDF)
+
+<a id="getting-started"></a>
 
 ## 🚦 Getting Started
 

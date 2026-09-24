@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="../README.md"><img src="images/logo-badge.png" alt="NightPlan" width="300"></a>
+</p>
+
 # Technical Design
 
 This document collects the design artefacts produced for NightPlan: UML diagrams, exception handling,
